@@ -12,7 +12,7 @@ setup(
     company="AiLiveSim",
     author="AiLiveSim",
     author_email="jarno@ailivesim.com",
-    description="Helper functions for the weather parameter inference",
+    description="Out of distribution detection related functionality",
     classifiers=[
         "Intended Audience :: Developers",
         "Topic :: Simulator :: Weather Parameters :: Deep Learning",
