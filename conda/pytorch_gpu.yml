@@ -1,0 +1,26 @@
+name: pytorch-gpu
+channels:
+    - menpo
+    - conda-forge
+    - anaconda
+    - pytorch
+    - nvidia
+dependencies:
+    - python=3.10
+    - pytorch
+    - torchvision
+    - pytorch-cuda=11.7
+    - pip
+    - opencv
+    - pip:
+        - jupyter
+        - scikit-learn
+        - matplotlib
+        - opendatasets
+        - einops
+        - tensorboard
+        - gdown
+        - albumentations
+        - pre-commit
+
+
