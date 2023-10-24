@@ -1,0 +1,25 @@
+name: pytorch-cpu
+channels:
+    - menpo
+    - conda-forge
+    - anaconda
+    - pytorch
+    - nvidia
+dependencies:
+    - python=3.10
+    - pytorch-cpu
+    - torchvision
+    - pip
+    - opencv
+    - pip:
+        - jupyter
+        - scikit-learn
+        - matplotlib
+        - opendatasets
+        - einops
+        - tensorboard
+        - gdown
+        - albumentations
+        - pre-commit
+
+
