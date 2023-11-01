@@ -41,7 +41,7 @@ what packages are required.
 
 ### 1.4.1. Pre-commit
 
-This code base use pre-commit git-hooks in order to check the code before it is committed to the repo. After
+This code base uses pre-commit git-hooks in order to check the code before it is committed to the repo. After
 you have cloned the repo, install pre-commit package:
 
 ```shell
@@ -103,13 +103,15 @@ def get_spreadsheet_cols(file_loc, print_cols=False):
 
 ### 1.4.4. Code Structure
 
-The code should be structured so that the different models and the training code are in separeted files / directories. 
+The code should be structured so that the different models and the training code are in separeted files / directories.
 [RetinaFace repo](https://github.com/biubug6/Pytorch_Retinaface) shows what a typical deep-learning repo could look like.
 To this end, we have created the following directories that should be used:
 
-* [models](./models)
-  * This directory contains all the different models
 * [dataloaders](./dataloaders)
   * This directory contains dataloaders and related
+* [jupyter](./jupyter)
+  * This directory contains jupyter notebooks and related
+* [models](./models)
+  * This directory contains all the different models
 * [utils](./utils)
   * This directory contains utils and related
