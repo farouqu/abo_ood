@@ -3,11 +3,19 @@
 This workpackage has the following goals:
 
 * Testing/developing state-of-the-art methods for OOD detection with respect to single- and two stage detectors
+  * The idea is to use the KPI to detect if the deep-learning model thinks that the given input image is within
+  the distribution that was seeing during training. This then allows to use this KPI to predict behviour of the detector
+  when real images are used for inference
+  * This OOD detection KPI should be compared against the typical detector KPIs, for labeled images, in order to verify
+  if the KPI is good at predicting how well the detector will work with a given input image
 * Training a detector using simulated data, with and without data augmentation, and evaluating how well the detector
 performs when using data from real cameras
   * In order to achieve this goal, we need to:
     * Generate training and validation data using the AiLiveSim simulator
+    * Train detector(s) using the training- and validation data
     * Do 2-3 recordings, in different conditions (time of the day etc.), and label some of the data for testing purposes
+    * Compare how well the detectors perform with respect to the validation (simulated) and test (real) images using
+    well known KPIs for detectors
 
 ## 1.1. Research Materials and Articles
 
@@ -18,6 +26,10 @@ performs when using data from real cameras
   * This MsC thesis concentrates on OOD in the case of two-stage detectors
 * [Andrej Karpathy's YouTube lectures related to deep-learning](https://www.youtube.com/watch?v=VMj-3S1tku0)
   * If you need to refresh your memory regarding some concepts related to deep-learning, take a look at Andrej's fantastic lessons available at YouTube
+* [Improving Object Localization with Fitness NMS and Bounded IoU Loss](https://arxiv.org/pdf/1711.00164.pdf)
+  * A research paper regarding object detection KPIs
+* [Common Objects in Context](https://cocodataset.org/#home)
+  * COCO is a large-scale object detection, segmentation, and captioning dataset.
 
 ## 1.2. Contents
 
@@ -115,3 +127,20 @@ To this end, we have created the following directories that should be used:
   * This directory contains all the different models
 * [utils](./utils)
   * This directory contains utils and related
+
+### 1.4.5. Pushing Large Binaries to the Repository
+
+Git repos are meant for tracking source code, i.e. text, and large binary files like images should not be pushed, in large quantities, to the repo.
+You can add images to the repo, as examples or link them to the README.md files. Following filetypes have been included in `.gitignore`
+
+```
+*.whl
+*.jpeg
+*.jpg
+*.png
+*.bmp
+*.png
+*.bmp
+```
+
+, so if you want to include images, you need to exclude that particular image from `.gitignore`.
