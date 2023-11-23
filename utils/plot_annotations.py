@@ -78,7 +78,7 @@ def get_categories_mappings(categories_to_colors):
     return categories_text
 
 
-def plot_bounding_box(image_file, annotation_file, color_mappings_xml, output_dir):
+def plot_bounding_box(image_file, annotation_file, annotation_map, output_dir):
     """Plots the bounding boxes on the image file based on the annotation file
 
     Parameters
@@ -110,8 +110,6 @@ def plot_bounding_box(image_file, annotation_file, color_mappings_xml, output_di
 
     boats = 0
     obstacles = 0
-    categories_to_colors, ordered_categories = map_color_palette(color_mappings_xml)
-    class_id_to_name_mapping = get_categories_mappings(categories_to_colors)
 
     annotations = np.array(annotation_list)
     w, h = image.size
@@ -131,7 +129,7 @@ def plot_bounding_box(image_file, annotation_file, color_mappings_xml, output_di
         obj_cls, x0, y0, x1, y1 = ann
         font = ImageFont.truetype("data/SimuShips/arial.ttf", 30)
         plotted_image.rectangle((x0, y0, x0 + 120, y0 + 40), fill=(255, 255, 255, 255))
-        plotted_image.text((x0, y0), class_id_to_name_mapping[(int(obj_cls))], font=font, fill=(255, 0, 0, 255))
+        plotted_image.text((x0, y0), annotation_map[(int(obj_cls))], font=font, fill=(255, 0, 0, 255))
         plotted_image.rectangle(((x0, y0), (x1, y1)), outline="yellow", width=3)
         if obj_cls == 0:
             boats += 1
@@ -149,18 +147,27 @@ def plot_bounding_box(image_file, annotation_file, color_mappings_xml, output_di
     fig.savefig(f"{output_dir}/{file_name}-annot.png", bbox_inches="tight", pad_inches=0)
 
 
-if __name__ == "__main__":
-    argP = argparse.ArgumentParser()
-    argP.add_argument("-n", "--num", help="Number of images to plot annotations")
+def generate_simuships_annot_images(num):
+    """Plots the bounding boxes for images on the SimuShips dataset
 
-    args = argP.parse_args()
-    print("args=%s" % args)
+    Parameters
+    ----------
+    num : int
+        The number of images to generate
+
+    Returns
+    -------
+    None
+    """
 
     MIN = 0
     MAX = 9470
     num = int(args.num)
 
     color_mappings_xml = "data/SimuShips/GroundTruthColorMapping.xml"
+    class_to_categories, ordered_categories = map_color_palette(color_mappings_xml)
+    annotation_map = get_categories_mappings(class_to_categories)
+
     output_dir = "data/SimuShips/images-annot"
 
     indices = random.sample(range(MIN, MAX), num)
@@ -169,4 +176,19 @@ if __name__ == "__main__":
         image_file = f"data/SimuShips/images/{index}-ailivesim.png"
         annotation_file = f"data/SimuShips/labels/{index}-ailivesim.txt"
 
-        plot_bounding_box(image_file, annotation_file, color_mappings_xml, output_dir)
+        plot_bounding_box(image_file, annotation_file, annotation_map, output_dir)
+
+
+if __name__ == "__main__":
+    argP = argparse.ArgumentParser()
+
+    argP.add_argument("-d", "--dataset", help="Dataset to plot annotations: simuships or aboships", required=True)
+    argP.add_argument("-n", "--num", help="Number of images to plot annotations", required=True)
+
+    args = argP.parse_args()
+
+    dataset = str(args.dataset)
+    num = int(args.num)
+
+    if dataset == "simuships":
+        generate_simuships_annot_images(num)
