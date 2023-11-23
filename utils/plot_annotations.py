@@ -101,8 +101,7 @@ def plot_bounding_box(image_file, annotation_file, annotation_map, output_dir):
     annotation_list = []
     with open(annotation_file, "r") as file:
         annotation_list = file.read().split("\n")
-        print(annotation_list)
-        annotation_list = [x.split(" ") for x in annotation_list]
+        annotation_list = [x.split(" ") for x in annotation_list if x]
         annotation_list = [[float(y) for y in x] for x in annotation_list]
 
     # Load the image
@@ -162,7 +161,6 @@ def generate_simuships_annot_images(num):
 
     MIN = 0
     MAX = 9470
-    num = int(args.num)
 
     color_mappings_xml = "data/SimuShips/GroundTruthColorMapping.xml"
     class_to_categories, ordered_categories = map_color_palette(color_mappings_xml)
@@ -175,6 +173,43 @@ def generate_simuships_annot_images(num):
     for index in indices:
         image_file = f"data/SimuShips/images/{index}-ailivesim.png"
         annotation_file = f"data/SimuShips/labels/{index}-ailivesim.txt"
+
+        plot_bounding_box(image_file, annotation_file, annotation_map, output_dir)
+
+
+def generate_aboships_annot_images(num):
+    """Plots the bounding boxes for images on the SimuShips dataset
+
+    Parameters
+    ----------
+    num : int
+        The number of images to generate
+
+    Returns
+    -------
+    None
+    """
+
+    # Get the annotation map
+    annot_file_path = "data/AboShips/annotation_map.json"
+
+    with open(annot_file_path, "r") as read_file:
+        annot_map = json.load(read_file)
+
+    annotation_map = {int(key): value for key, value in annot_map.items()}
+    output_dir = "data/AboShips/images-annot/train"
+
+    # Plot for random images (based on user's input)
+    folder_path = "data/AboShips/images/train"
+    images_list = os.listdir(folder_path)
+    selected_images = random.sample(images_list, num)
+
+    for image in selected_images:
+        image_name = os.path.basename(image)
+        image_name = os.path.splitext(image_name)[0]
+
+        image_file = f"data/AboShips/images/train/{image_name}.png"
+        annotation_file = f"data/AboShips/labels/train/{image_name}.txt"
 
         plot_bounding_box(image_file, annotation_file, annotation_map, output_dir)
 
@@ -192,3 +227,7 @@ if __name__ == "__main__":
 
     if dataset == "simuships":
         generate_simuships_annot_images(num)
+    elif dataset == "aboships":
+        generate_aboships_annot_images(num)
+    else:
+        print("Unknown dataset. Available options: simuships, aboships")
