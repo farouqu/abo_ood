@@ -1,0 +1,8 @@
+path: ../data/simuships
+train: 'train/images'
+val: 'val/images'
+
+# class names
+names:
+  0: 'boat'
+  1: 'obstacle'

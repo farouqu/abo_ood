@@ -1,6 +1,6 @@
 import json
 
-file_path = "data/AboShips/labels/train/annotation_info.json"
+file_path = "data/aboships/labels/val/annotation_info.json"
 
 with open(file_path, "r") as read_file:
     data = json.load(read_file)
@@ -20,7 +20,7 @@ for item in data:
     output_str = f"{category_id} {x_normalized} {y_normalized} {w_normalized} {h_normalized}"
 
     # Save the output string to a text file named after the image
-    output_filename = f"data/AboShips/labels/train/{image_path.split('.')[0]}.txt"
+    output_filename = f"data/aboships/labels/val/{image_path.split('.')[0]}.txt"
     with open(output_filename, "a") as file:
         file.write(output_str + "\n")
 
