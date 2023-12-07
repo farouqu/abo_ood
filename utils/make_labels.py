@@ -1,7 +1,9 @@
 import json
 import argparse
 import os
+from tqdm import tqdm
 
+# Image width and height from the AboShips dataset
 IMAGE_WIDTH = 1280
 IMAGE_HEIGHT = 720
 
@@ -33,10 +35,10 @@ def normalize_bbox_coordinates(bbox, image_width, image_height):
         tuple: Normalized (x_normalized, y_normalized, w_normalized, h_normalized) coordinates.
     """
     x, y, w, h = bbox
-    x_normalized = (2 * x + w) / (2 * image_width)
-    y_normalized = (2 * y + h) / (2 * image_height)
-    w_normalized = w / image_width
-    h_normalized = h / image_height
+    x_normalized = max(0, (2 * x + w) / (2 * image_width))
+    y_normalized = max(0, (2 * y + h) / (2 * image_height))
+    w_normalized = max(0, w / image_width)
+    h_normalized = max(0, h / image_height)
     return x_normalized, y_normalized, w_normalized, h_normalized
 
 
@@ -51,7 +53,7 @@ def save_normalized_data(normalized_data, output_directory):
     if not os.path.exists(output_directory):
         os.makedirs(output_directory)
 
-    for item in normalized_data:
+    for item in tqdm(normalized_data, desc="Converting bounding boxes to YOLO format", unit="box"):
         category_id = item["category_id"]
         bbox = item["bbox"]
         image_path = item["image_path"]

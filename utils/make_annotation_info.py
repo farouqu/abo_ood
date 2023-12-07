@@ -1,6 +1,7 @@
 import json
 import os
 import argparse
+from tqdm import tqdm
 
 
 def load_data(file_path):
@@ -42,7 +43,7 @@ def filter_annotations_by_image_id(annotation_info, image_id_to_path):
         list: Filtered annotation data.
     """
     new_annotation_data = []
-    for item in annotation_info:
+    for item in tqdm(annotation_info, desc="Filtering annotations", unit="annotation"):
         if "image_id" in item:
             image_id = item["image_id"]
             if image_id in image_id_to_path:
