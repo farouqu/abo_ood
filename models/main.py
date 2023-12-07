@@ -5,9 +5,6 @@ SEED = 42
 # Load a pretrained YOLOv8n model
 model = YOLO("yolov8m.pt")
 
-# Run inference on 'bus.jpg' with arguments
-# model.predict('test_images/airplane.jpg', save=True)
-
 if __name__ == "__main__":
     # Train the model
     results = model.train(
