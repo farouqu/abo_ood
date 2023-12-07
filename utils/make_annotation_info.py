@@ -1,7 +1,7 @@
 import json
 import os
 
-file_path = "data/aboships/annotations/test.json"
+file_path = "data/aboships/annotations/val.json"
 
 with open(file_path, "r") as read_file:
     data = json.load(read_file)
@@ -19,8 +19,8 @@ for item in annotation_info:
             item["image_path"] = image_id_to_path[image_id]
             new_annotation_data.append(item)
 
-if not os.path.exists("data/aboships/labels/test"):
-    os.makedirs("data/aboships/labels/test")
+if not os.path.exists("data/aboships/labels/val"):
+    os.makedirs("data/aboships/labels/val")
 
-with open("data/aboships/labels/test/annotation_info.json", "w") as file:
+with open("data/aboships/labels/val/annotation_info.json", "w") as file:
     json.dump(new_annotation_data, file, indent=2)

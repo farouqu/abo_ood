@@ -22,6 +22,7 @@ def split_dataset(data_dir, labels_dir, train_size=0.7):
     None
     """
 
+    # Get all file paths in the data directory
     file_paths = os.listdir(data_dir)
     label_paths = os.listdir(labels_dir)
 
@@ -77,8 +78,8 @@ if __name__ == "__main__":
 
     args = argP.parse_args()
 
-    fp = str(args.folder_path)
-    lp = str(args.labels_path)
-    t = float(args.train_size)
+    folder_path = str(args.folder_path)
+    labels_path = str(args.labels_path)
+    train_size = float(args.train_size)
 
-    split_dataset(fp, lp, train_size=t)
+    split_dataset(folder_path, labels_path, train_size=train_size)

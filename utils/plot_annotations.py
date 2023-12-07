@@ -191,16 +191,16 @@ def generate_aboships_annot_images(num):
     """
 
     # Get the annotation map
-    annot_file_path = "data/AboShips/annotation_map.json"
+    annot_file_path = "data/aboships/annotation_map.json"
 
     with open(annot_file_path, "r") as read_file:
         annot_map = json.load(read_file)
 
     annotation_map = {int(key): value for key, value in annot_map.items()}
-    output_dir = "data/AboShips/images-annot/train"
+    output_dir = "data/aboships/images-annot/val"
 
     # Plot for random images (based on user's input)
-    folder_path = "data/AboShips/images/train"
+    folder_path = "data/aboships/images/val"
     images_list = os.listdir(folder_path)
     selected_images = random.sample(images_list, num)
 
@@ -208,8 +208,8 @@ def generate_aboships_annot_images(num):
         image_name = os.path.basename(image)
         image_name = os.path.splitext(image_name)[0]
 
-        image_file = f"data/AboShips/images/train/{image_name}.png"
-        annotation_file = f"data/AboShips/labels/train/{image_name}.txt"
+        image_file = f"data/aboships/images/val/{image_name}.png"
+        annotation_file = f"data/aboships/labels/val/{image_name}.txt"
 
         plot_bounding_box(image_file, annotation_file, annotation_map, output_dir)
 
