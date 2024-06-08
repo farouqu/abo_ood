@@ -18,13 +18,13 @@ def split_dataset(images_folder, labels_folder, output_folder, train_size, val_s
         test_size (float): Percentage of data for testing.
     """
     # Create output folders if they don't exist
-    os.makedirs(output_folder, exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "train", "images"), exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "train", "labels"), exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "val", "images"), exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "val", "labels"), exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "test", "images"), exist_ok=True)
-    os.makedirs(os.path.join(output_folder, "test", "labels"), exist_ok=True)
+    folders = ["train", "val", "test"]
+
+    subfolders = ["images", "labels"]
+
+    for folder in folders:
+        for subfolder in subfolders:
+            os.makedirs(os.path.join(output_folder, folder, subfolder), exist_ok=True)
 
     # Get image and label file lists
     images = os.listdir(images_folder)
@@ -39,14 +39,14 @@ def split_dataset(images_folder, labels_folder, output_folder, train_size, val_s
     )
 
     # Move files to appropriate folders
-    copy_files(images_folder, images_train, os.path.join(output_folder, "train", "images"))
-    copy_files(labels_folder, labels_train, os.path.join(output_folder, "train", "labels"))
+    splits = ["train", "val", "test"]
+    subfolders = ["images", "labels"]
 
-    copy_files(images_folder, images_val, os.path.join(output_folder, "val", "images"))
-    copy_files(labels_folder, labels_val, os.path.join(output_folder, "val", "labels"))
-
-    copy_files(images_folder, images_test, os.path.join(output_folder, "test", "images"))
-    copy_files(labels_folder, labels_test, os.path.join(output_folder, "test", "labels"))
+    for split in splits:
+        for subfolder in subfolders:
+            source_path = os.path.join(images_folder if subfolder == "images" else labels_folder, f"{split}")
+            destination_path = os.path.join(output_folder, split, subfolder)
+            copy_files(source_path, destination_path)
 
 
 def copy_files(source_folder, files, destination_folder):
